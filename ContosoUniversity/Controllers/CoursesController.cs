@@ -80,15 +80,15 @@ namespace ContosoUniversity.Controllers
                 return NotFound();
             }
 
-            var instructor = await _context.Instructors
-                .Include(i => i.OfficeAssignment)
+            var course = await _context.Course
                 .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (instructor == null)
+                .FirstOrDefaultAsync(m => m.CourseID == id);
+            if (course == null)
             {
                 return NotFound();
             }
-            return View(instructor);
+            PopulateDepartmentsDropDownList(course.DepartmentID);
+            return View(course);
         }
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
